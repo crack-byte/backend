@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: tripshare
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tripshare
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate.ddl-auto: update
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    database-platform:  org.hibernate.dialect.PostgreSQL10Dialect
+  liquibase:
+    change-log: classpath:db/changelog/change-log-master.xml
+    enabled: false
