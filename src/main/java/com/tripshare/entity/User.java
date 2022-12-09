@@ -33,7 +33,7 @@ public class User extends BaseEntity {
 	private UserProfile userProfile;
 
 	@ManyToMany
-	@JoinTable(name = "user_roles")
+	@JoinTable(name = "user_permissions")
 	private List<Permission> permissions;
 
 	@OneToMany(
