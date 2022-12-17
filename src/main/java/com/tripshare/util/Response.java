@@ -1,4 +1,4 @@
-package com.tripshare.util.converters;
+package com.tripshare.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
