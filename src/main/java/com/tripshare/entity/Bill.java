@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-public class Bill extends BaseEntity{
+public class Bill extends BaseEntity {
 
 	private static final long serialVersionUID = -5701334493780053404L;
 
