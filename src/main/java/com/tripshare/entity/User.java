@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -19,31 +20,36 @@ import java.util.List;
 @Entity(name = "users")
 public class User extends BaseEntity {
 
-	private static final long serialVersionUID = -9141886501561769867L;
-	@Column(unique = true)
-	private String username;
-	@Column(unique = true)
-	private String email;
-	private String encryptedPassword;
-	private boolean active;
-	@OneToOne(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY
-	)
-	private UserProfile userProfile;
+    private static final long serialVersionUID = -9141886501561769867L;
+    @Column(unique = true)
+    private String username;
+    @Column(unique = true)
+    private String email;
+    private String encryptedPassword;
+    private boolean active;
+    @OneToOne(
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY
+    )
+    private UserProfile userProfile;
 
-	@ManyToMany
-	@JoinTable(name = "user_roles")
-	private List<Permission> permissions;
+    @ManyToMany
+    @JoinTable(name = "user_permissions")
+    private List<Permission> permissions;
 
-	@OneToMany(
-			mappedBy = "user"
-	)
-	private List<TripUser> allTrips;
+    @ManyToMany(
+        fetch = FetchType.LAZY
+    )
+    @JoinTable(
+        name = "trip_users",
+        joinColumns = {@JoinColumn(name = "user_id")},
+        inverseJoinColumns = {@JoinColumn(name = "trip_id")}
+    )
+    private List<Trip> trips;
 
-	public User() {
-		this.active = true;
-		this.permissions = new ArrayList<>();
-	}
+    public User() {
+        this.active = true;
+        this.permissions = new ArrayList<>();
+    }
 
 }
