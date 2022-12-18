@@ -6,12 +6,14 @@ server:
 spring:
   application:
     name: tripshare
+  messages:
+    basename: messages
   profiles:
     active: dev
   datasource:
-    url: jdbc:postgresql://localhost:5431/tripshare
-    username: arkcase
-    password: arkcase
+    url: jdbc:postgresql://localhost:5432/tripshare
+    username: postgres
+    password: postgres
   jpa:
     hibernate.ddl-auto: update
     generate-ddl: true
