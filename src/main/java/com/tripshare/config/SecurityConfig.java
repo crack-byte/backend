@@ -1,5 +1,6 @@
 package com.tripshare.config;
 
+import com.tripshare.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 public class SecurityConfig {
     @Autowired
     private JwtProcessor jwtProcessor;
+    @Autowired
+    private UserService userService;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http,
@@ -38,7 +41,7 @@ public class SecurityConfig {
                 .antMatchers("/login").permitAll().anyRequest().authenticated())
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .addFilter(new CustomAuthenticationFilter(authenticationManager, jwtProcessor))
-            .addFilter(new CustomAuthorizationFilter(authenticationManager, jwtProcessor));
+            .addFilter(new CustomAuthorizationFilter(authenticationManager, jwtProcessor, userService));
         return http.build();
     }
 

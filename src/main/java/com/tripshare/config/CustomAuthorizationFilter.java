@@ -1,10 +1,11 @@
 package com.tripshare.config;
 
+import com.tripshare.entity.CustomUserDetails;
+import com.tripshare.entity.User;
+import com.tripshare.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -14,19 +15,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final JwtProcessor jwtProcessor;
+    private final UserService userService;
 
-    public CustomAuthorizationFilter(AuthenticationManager authenticationManager, JwtProcessor jwtProcessor) {
+    public CustomAuthorizationFilter(AuthenticationManager authenticationManager,
+                                     JwtProcessor jwtProcessor, UserService userService) {
         super(authenticationManager);
         this.jwtProcessor = jwtProcessor;
+        this.userService = userService;
     }
 
     @SneakyThrows
@@ -38,28 +39,27 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
         UsernamePasswordAuthenticationToken authentication = getAuthentication(request);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (authentication != null) {
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
         chain.doFilter(request, response);
     }
 
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) throws ParseException {
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader("Authorization");
         if (token != null) {
             // parse the token.
             Map<String, Object> verify = jwtProcessor.getAllClaimsFromToken(token.substring(7));
             String username = verify.get("sub").toString();
-            List<Map<String, String>> object = (List<Map<String, String>>) verify.get("authorities");
-            if (username != null) {
-                return new UsernamePasswordAuthenticationToken(username, null, getAuthorities(object));
+            User user = userService.findByUsername(username);
+            if (user != null) {
+                CustomUserDetails userDetails = new CustomUserDetails(user);
+                return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             }
             return null;
         }
         return null;
-    }
-
-    private Collection<? extends GrantedAuthority> getAuthorities(List<Map<String, String>> authorities) {
-        return authorities.stream().map(m -> new SimpleGrantedAuthority("ROLE_" + m.get("authority"))).collect(Collectors.toList());
     }
 
 }
