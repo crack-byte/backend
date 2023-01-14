@@ -6,6 +6,7 @@ import com.tripshare.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class UserDTO {
+public class UserDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private long id;
 	private String username;
