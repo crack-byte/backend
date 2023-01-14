@@ -10,14 +10,13 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "permission")
-public class Permission extends BaseEntity {
+@Table(name = "role")
+public class Role extends BaseEntity {
 
 	private static final long serialVersionUID = 3000843363273121778L;
 	private String name;
 	private String description;
-	@Column(name = "priority")
-	private int order;
+	private int priority;
 	private boolean active;
 
 }

@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @AllArgsConstructor
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	public static final ObjectMapper MAPPER = new ObjectMapper();
 
 //    private static final Map<String, String> validClient = new ConcurrentHashMap<>();
 //
@@ -49,9 +50,10 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 //            if (split.length < 2 || !validClient.containsKey(split[0]) || !validClient.get(split[0]).equals(split[1])) {
 //                throw new RuntimeException("invalid client");
 //            }
-			Map<String, String> creds = new ObjectMapper().readValue(request.getInputStream(), Map.class);
-			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creds.get("username"),
-					creds.get("password"), new ArrayList<>()));
+			Map<String, String> creds = MAPPER.readValue(request.getInputStream(), Map.class);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(creds.get("username"),
+				creds.get("password"), new ArrayList<>());
+			return authenticationManager.authenticate(authentication);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

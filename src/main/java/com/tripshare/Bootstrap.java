@@ -1,10 +1,14 @@
 package com.tripshare;
 
-import com.tripshare.dto.UserDTO;
+import com.tripshare.entity.Role;
+import com.tripshare.entity.User;
+import com.tripshare.entity.UserProfile;
+import com.tripshare.repository.RoleRepository;
 import com.tripshare.repository.UserRepository;
-import com.tripshare.service.CacheService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.TimeZone;
@@ -13,25 +17,35 @@ import java.util.TimeZone;
  *
  */
 @Component
+@AllArgsConstructor
 public class Bootstrap {
 
-	@Autowired
-	private UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	CacheService cacheService;
-	/**
-	 *
-	 */
-	@PostConstruct
-	void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-		UserDTO userDTO = new UserDTO();
-		userDTO.setUsername("admin");
-		cacheService.put("user", "admin", userDTO);
-		UserDTO o = (UserDTO) cacheService.get("user", "admin");
-		System.out.println(o);
-//		userRepository.deleteAll();
-	}
+    /**
+     *
+     */
+    @PostConstruct
+    @Transactional
+    void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        if(userRepository.count() == 0) {
+            Role role = new Role();
+            role.setName("USER");
+            role.setPriority(1);
+            roleRepository.save(role);
+            User user = new User();
+            user.setUsername("user");
+            user.setEmail("admin@admin.com");
+            UserProfile userProfile = new UserProfile();
+            userProfile.setFirstName("Admin");
+            user.setUserProfile(userProfile);
+            user.addRole(role);
+            user.setEncryptedPassword(passwordEncoder.encode("admin"));
+            userRepository.save(user);
+        }
+    }
 
 }

@@ -26,7 +26,7 @@ public class UserDTO implements Serializable {
 	private String password;
 	@NotNull
 	private UserProfileDto userProfile;
-	private List<PermissionDto> permissions;
+	private List<RoleDto> permissions;
 
 	public UserDTO() {
 		this.permissions = new ArrayList<>();
