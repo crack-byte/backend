@@ -13,10 +13,10 @@ import javax.persistence.Table;
 @Table(name = "role")
 public class Role extends BaseEntity {
 
-	private static final long serialVersionUID = 3000843363273121778L;
-	private String name;
-	private String description;
-	private int priority;
-	private boolean active;
+    private static final long serialVersionUID = 3000843363273121778L;
+    private String name;
+    private String description;
+    private int priority;
+    private boolean active;
 
 }

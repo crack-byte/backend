@@ -1,11 +1,11 @@
 package com.tripshare.entity;
 
-import com.tripshare.dto.TripDTO;
-import com.tripshare.dto.UserDTO;
+import com.tripshare.dto.trips.TripRequestDTO;
 import com.tripshare.util.converters.LocalDateTimeConverter;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -36,7 +35,8 @@ public class Trip extends BaseEntity {
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime endDate;
     @ManyToMany(
-        fetch = FetchType.LAZY
+        fetch = FetchType.LAZY,
+        cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @JoinTable(
         name = "trip_participants",
@@ -53,14 +53,14 @@ public class Trip extends BaseEntity {
         this.uuid = UUID.randomUUID().toString();
     }
 
-    public Trip(TripDTO tripDTO) {
+    public Trip(TripRequestDTO tripRequest) {
         this();
-        this.name = tripDTO.getName();
-        this.description = tripDTO.getDescription();
-        this.category = tripDTO.getCategory();
+        this.name = tripRequest.getName();
+        this.description = tripRequest.getDescription();
+        this.category = tripRequest.getCategory();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-        this.startDate = LocalDateTime.parse(tripDTO.getStartDate(), formatter);
-        this.endDate = LocalDateTime.parse(tripDTO.getEndDate(), formatter);
+        this.startDate = LocalDateTime.parse(tripRequest.getStartDate(), formatter);
+        this.endDate = LocalDateTime.parse(tripRequest.getEndDate(), formatter);
 
     }
 }

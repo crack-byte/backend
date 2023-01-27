@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisProducer {
 
-	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
-	public void sendMessage(String queue, Object body) {
-		redisTemplate.convertAndSend(queue, body);
-	}
+    public void sendMessage(String queue, Object body) {
+        redisTemplate.convertAndSend(queue, body);
+    }
 
 }

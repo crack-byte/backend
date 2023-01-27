@@ -11,32 +11,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A DTO for the {@link com.tripshare.entity.User} entity
+ * A DTO for the {@link User} entity
  */
 @Data
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserDTO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private long id;
-	private String username;
-	private String email;
-	private String password;
-	@NotNull
-	private UserProfileDto userProfile;
-	private List<RoleDto> permissions;
+    private long id;
+    private String username;
+    private String email;
+    private String password;
+    @NotNull
+    private UserProfileDto userProfile;
+    private List<RoleDto> permissions;
 
-	public UserDTO() {
-		this.permissions = new ArrayList<>();
-	}
+    public UserDTO() {
+        this.permissions = new ArrayList<>();
+    }
 
-	public UserDTO(User user) {
-		this.id = user.getId();
-		this.username = user.getUsername();
-		this.email = user.getEmail();
-		this.userProfile = new UserProfileDto(user.getUserProfile());
-	}
+    public UserDTO(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.userProfile = new UserProfileDto(user.getUserProfile());
+    }
 
 }

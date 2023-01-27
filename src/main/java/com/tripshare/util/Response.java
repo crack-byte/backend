@@ -19,17 +19,17 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Builder
 public class Response<T> {
 
-	private T data;
-	private String status;
-	private String errorCode;
-	private String message;
+    private T data;
+    private String status;
+    private String errorCode;
+    private String message;
 
-	public ResponseEntity<Response<T>> entity(HttpStatus httpStatus) {
-		return ResponseEntity.status(httpStatus).body(this);
-	}
+    public ResponseEntity<Response<T>> entity(HttpStatus httpStatus) {
+        return ResponseEntity.status(httpStatus).body(this);
+    }
 
-	public ResponseEntity<Response<T>> entity() {
-		return this.entity(HttpStatus.OK);
-	}
+    public ResponseEntity<Response<T>> entity() {
+        return this.entity(HttpStatus.OK);
+    }
 
 }

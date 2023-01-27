@@ -11,17 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserProfileDto {
 
-	private long id;
-	private String firstName;
-	private String lastName;
-	private String profileImageUrl;
-	private String gender;
+    private long id;
+    private String firstName;
+    private String lastName;
+    private String profileImageUrl;
+    private String gender;
 
-	public UserProfileDto(UserProfile userProfile) {
-		this.id = userProfile.getId();
-		this.firstName = userProfile.getFirstName();
-		this.lastName = userProfile.getLastName();
-		this.profileImageUrl = userProfile.getProfileImageUrl();
-	}
+    public UserProfileDto(UserProfile userProfile) {
+        this.id = userProfile.getId();
+        this.firstName = userProfile.getFirstName();
+        this.lastName = userProfile.getLastName();
+        this.profileImageUrl = userProfile.getProfileImageUrl();
+    }
 
 }

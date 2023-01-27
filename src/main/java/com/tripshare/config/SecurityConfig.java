@@ -1,6 +1,9 @@
 package com.tripshare.config;
 
 import com.tripshare.service.UserService;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
@@ -38,7 +41,7 @@ public class SecurityConfig {
                 response.setHeader("WWW-Authenticate", accessDeniedException.getMessage());
             }).and()
             .authorizeRequests(expressionInterceptUrlRegistry -> expressionInterceptUrlRegistry
-                .antMatchers("/login").permitAll().anyRequest().authenticated())
+                .antMatchers("/login", "/docs/**", "/swagger-ui/**").permitAll().anyRequest().authenticated())
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
             .addFilter(new CustomAuthenticationFilter(authenticationManager, jwtProcessor))
             .addFilter(new CustomAuthorizationFilter(authenticationManager, jwtProcessor, userService));
@@ -57,4 +60,16 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public OpenAPI customOpenAPI() {
+
+        return new OpenAPI()
+            .components
+                (
+                    new Components().addSecuritySchemes("bearerAuth"
+                        , new SecurityScheme()
+                            .type(SecurityScheme.Type.HTTP)
+                            .scheme("bearer").bearerFormat("JWT"))
+                );
+    }
 }

@@ -12,11 +12,11 @@ import javax.persistence.ManyToOne;
 @Entity
 public class UserPasswordHistory extends BaseEntity {
 
-	private static final long serialVersionUID = -3729291609003879486L;
-	private String encryptedPassword;
-	private long createdBy;
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+    private static final long serialVersionUID = -3729291609003879486L;
+    private String encryptedPassword;
+    private long createdBy;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

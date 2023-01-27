@@ -5,6 +5,8 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 
 @Service
 public class CacheService {
@@ -12,6 +14,8 @@ public class CacheService {
 
     public CacheService(RedisTemplate<String, Object> redisTemplate) {
         this.hashOperations = redisTemplate.opsForHash();
+        this.hashOperations.keys(Cache.USER.toString())
+            .forEach(key -> this.hashOperations.delete(Cache.USER.toString(), key));
     }
 
     public void put(String key, String hashKey, Object value) {

@@ -39,3 +39,9 @@ spring:
 jwt:
   secret: ${JWT_SECRET}
   expiration: 1800000
+springdoc:
+  swagger-ui.path: /docs
+  api-docs.path: /docs/json
+elasticsearch:
+  host: localhost
+  port: 9200

@@ -1,15 +1,17 @@
 package com.tripshare.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Getter
-public class CustomUserDetails implements UserDetails {
-
+public class CustomUserDetails implements UserDetails, Serializable {
+    private static final long serialVersionUID = 346345345345L;
     private final User user;
 
     public CustomUserDetails(User user) {

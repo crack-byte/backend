@@ -39,9 +39,9 @@ public class User extends BaseEntity {
     private UserProfile userProfile;
 
     @ManyToMany(
-		cascade = CascadeType.DETACH,
-		fetch = FetchType.EAGER
-	)
+        cascade = CascadeType.DETACH,
+        fetch = FetchType.EAGER
+    )
     @JoinTable(name = "user_roles")
     private List<Role> roles;
 

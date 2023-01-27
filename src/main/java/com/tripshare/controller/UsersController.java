@@ -23,23 +23,23 @@ import java.util.Locale;
 @RequestMapping("/users")
 public class UsersController {
 
-	private final UserService userService;
-	private final MessageSource messageSource;
+    private final UserService userService;
+    private final MessageSource messageSource;
 
-	@PostMapping
-	public ResponseEntity<Response<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
-		Response<UserDTO> response = new Response<>();
-		response.setStatus("success");
-		response.setMessage(messageSource.getMessage("success.message", null, Locale.ENGLISH));
-		response.setData(userService.createUser(userDTO));
-		return response.entity(HttpStatus.CREATED);
-	}
+    @PostMapping
+    public ResponseEntity<Response<UserDTO>> createUser(@RequestBody UserDTO userDTO) {
+        Response<UserDTO> response = new Response<>();
+        response.setStatus("success");
+        response.setMessage(messageSource.getMessage("success.message", null, Locale.ENGLISH));
+        response.setData(userService.createUser(userDTO));
+        return response.entity(HttpStatus.CREATED);
+    }
 
-	@GetMapping
-	public ResponseEntity<Response<PaginationDTO<UserDTO>>> listAllUsers(FilterDTO filterDTO) {
-		return Util.generateResponse(userService.findAll(filterDTO.getLimit(), filterDTO.getPage()),
-				messageSource.getMessage("success.message", null, Locale.ENGLISH),
-				"success", HttpStatus.OK);
-	}
+    @GetMapping
+    public ResponseEntity<Response<PaginationDTO<UserDTO>>> listAllUsers(FilterDTO filterDTO) {
+        return Util.generateResponse(userService.findAll(filterDTO.getLimit(), filterDTO.getPage()),
+            messageSource.getMessage("success.message", null, Locale.ENGLISH),
+            "success", HttpStatus.OK);
+    }
 
 }

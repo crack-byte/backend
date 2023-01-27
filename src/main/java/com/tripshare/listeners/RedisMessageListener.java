@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisMessageListener implements MessageListener {
 
-	private static final Logger logger = LoggerFactory.getLogger(RedisMessageListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(RedisMessageListener.class);
 
-	@Override
-	public void onMessage(Message message, byte[] pattern) {
-		logger.info("Received message: {} {}", message.toString(), new String(pattern));
-	}
+    @Override
+    public void onMessage(Message message, byte[] pattern) {
+        logger.info("Received message: {} {}", message.toString(), new String(pattern));
+    }
 
 }

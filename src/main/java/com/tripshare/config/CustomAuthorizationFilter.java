@@ -1,7 +1,6 @@
 package com.tripshare.config;
 
 import com.tripshare.entity.CustomUserDetails;
-import com.tripshare.entity.User;
 import com.tripshare.service.UserService;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,8 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Map;
 
 
 public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
@@ -50,11 +47,8 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         String token = request.getHeader("Authorization");
         if (token != null) {
             // parse the token.
-            Map<String, Object> verify = jwtProcessor.getAllClaimsFromToken(token.substring(7));
-            String username = verify.get("sub").toString();
-            User user = userService.findByUsername(username);
-            if (user != null) {
-                CustomUserDetails userDetails = new CustomUserDetails(user);
+            CustomUserDetails userDetails = jwtProcessor.validateTokenFromCache(token.substring(7));
+            if (userDetails != null) {
                 return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             }
             return null;
