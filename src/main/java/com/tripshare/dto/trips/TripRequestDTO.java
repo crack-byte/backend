@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.tripshare.dto.UserDTO;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-
+@ToString
 public class TripRequestDTO implements Serializable {
     private static final long serialVersionUID = -3201823545005085832L;
 

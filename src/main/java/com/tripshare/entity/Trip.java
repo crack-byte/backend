@@ -43,11 +43,11 @@ public class Trip extends BaseEntity {
         joinColumns = {@JoinColumn(name = "trip_id")},
         inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-    private List<User> participants;
+    private List<Account> participants;
 
     @ManyToOne
     @JoinColumn(name = "organizer_id")
-    private User organizer;
+    private Account organizer;
 
     public Trip() {
         this.uuid = UUID.randomUUID().toString();

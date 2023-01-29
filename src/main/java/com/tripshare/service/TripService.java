@@ -4,9 +4,8 @@ import com.tripshare.dto.PaginationDTO;
 import com.tripshare.dto.trips.TripDTO;
 import com.tripshare.dto.trips.TripRequestDTO;
 import com.tripshare.entity.Trip;
-import com.tripshare.entity.User;
+import com.tripshare.entity.Account;
 import com.tripshare.repository.TripRepository;
-import com.tripshare.util.Response;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +28,11 @@ public class TripService {
     private final UserService userService;
 
     @Transactional
-    public void createTrip(TripRequestDTO tripDTO, User organizer) {
+    public void createTrip(TripRequestDTO tripDTO, Account organizer) {
         log.info("Creating trip: {}", tripDTO);
         Trip trip = new Trip(tripDTO);
         List<Long> participantsIds = tripDTO.getParticipantIds();
-        List<User> participants = userService.findAllById(participantsIds);
+        List<Account> participants = userService.findAllById(participantsIds);
         trip.setParticipants(participants);
         trip.setOrganizer(organizer);
         tripRepository.save(trip);

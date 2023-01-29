@@ -1,7 +1,6 @@
 package com.tripshare.entity;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,35 +11,35 @@ import java.util.stream.Collectors;
 @Getter
 public class CustomUserDetails implements UserDetails, Serializable {
     private static final long serialVersionUID = 346345345345L;
-    private final User user;
+    private final Account account;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
+    public CustomUserDetails(Account account) {
+        this.account = account;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles().stream().map(role -> (GrantedAuthority) role::getName).collect(Collectors.toList());
+        return account.getRoles().stream().map(role -> (GrantedAuthority) role::getName).collect(Collectors.toList());
     }
 
     @Override
     public String getPassword() {
-        return user.getEncryptedPassword();
+        return account.getEncryptedPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return account.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return !user.isExpired();
+        return !account.isExpired();
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return !user.isLocked();
+        return !account.isLocked();
     }
 
     @Override
@@ -50,6 +49,6 @@ public class CustomUserDetails implements UserDetails, Serializable {
 
     @Override
     public boolean isEnabled() {
-        return user.isActive();
+        return account.isActive();
     }
 }

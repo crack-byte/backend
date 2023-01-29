@@ -1,7 +1,7 @@
 package com.tripshare.service;
 
 import com.tripshare.entity.CustomUserDetails;
-import com.tripshare.entity.User;
+import com.tripshare.entity.Account;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +15,7 @@ public class AuthenticationUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.findByUsername(username);
-        return new CustomUserDetails(user);
+        Account account = userService.findByUsername(username);
+        return new CustomUserDetails(account);
     }
 }

@@ -68,7 +68,7 @@ public class JwtProcessor {
             .setIssuedAt(new Date(currentTime))
             .setExpiration(new Date(currentTime + this.expiration))
             .signWith(SignatureAlgorithm.HS512, this.secretKey).compact();
-        tokenService.saveToken(token, userDetails.getUser(), expiration);
+        tokenService.saveToken(token, userDetails.getAccount(), expiration);
         return token;
     }
 

@@ -26,7 +26,7 @@ public class TripsController {
     public ResponseEntity<Response<PaginationDTO<TripDTO>>> getTrips(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
         Response<PaginationDTO<TripDTO>> response = new Response<>();
-        response.setData(tripService.getTrips(userDetails.getUser().getId()));
+        response.setData(tripService.getTrips(userDetails.getAccount().getId()));
         response.setStatus("success");
         return response.entity(HttpStatus.OK);
     }
@@ -37,7 +37,7 @@ public class TripsController {
         Response<Object> response = new Response<>();
         response.setData(null);
         try {
-            tripService.createTrip(tripRequest, userDetails.getUser());
+            tripService.createTrip(tripRequest, userDetails.getAccount());
             response.setMessage("Trip created");
             response.setStatus("success");
             return response.entity(HttpStatus.CREATED);

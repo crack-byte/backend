@@ -1,7 +1,7 @@
 package com.tripshare.service;
 
+import com.tripshare.entity.Account;
 import com.tripshare.entity.CustomUserDetails;
-import com.tripshare.entity.User;
 import com.tripshare.util.Util;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -18,8 +18,8 @@ public class TokenService {
         valueOperations = redisTemplate.opsForValue();
     }
 
-    public void saveToken(String token, User user, long expiration) {
-        valueOperations.set(token, user, expiration, TimeUnit.MILLISECONDS);
+    public void saveToken(String token, Account account, long expiration) {
+        valueOperations.set(token, account, expiration, TimeUnit.MILLISECONDS);
     }
 
     public CustomUserDetails validateToken(String token) {
@@ -28,7 +28,7 @@ public class TokenService {
         if (fromValue == null) {
             return null;
         }
-        return new CustomUserDetails(Util.MAPPER.convertValue(fromValue, User.class));
+        return new CustomUserDetails(Util.MAPPER.convertValue(fromValue, Account.class));
     }
 
 }

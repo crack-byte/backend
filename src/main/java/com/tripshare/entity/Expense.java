@@ -25,7 +25,7 @@ public class Expense extends BaseEntity {
     @Convert(converter = ListConverter.class)
     private List<String> tags;
     @ManyToOne
-    private User createdBy;
+    private Account createdBy;
 
     public Expense() {
         this.amount = BigDecimal.ZERO;

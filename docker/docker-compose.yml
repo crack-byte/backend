@@ -1,6 +1,16 @@
 version: '3.7'
 
 services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: tripshare
+      POSTGRES_USER: tripshare
+    volumes:
+      - db-data:/var/lib/postgresql/data
   redis:
     image: redis:latest
     container_name: tripshare-redis
@@ -8,7 +18,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./data:/data
+      - redis-data:/data
     networks:
       - mynetwork
   elasticsearch:
@@ -21,7 +31,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data:/usr/share/elasticsearch/data
+      - elastic-data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
     networks:
@@ -63,5 +73,7 @@ networks:
   mynetwork:
     driver: bridge
 volumes:
+  db-data:
   data:
-    driver: local
+  redis-data:
+  elastic-data:

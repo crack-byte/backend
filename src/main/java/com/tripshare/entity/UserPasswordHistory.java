@@ -17,6 +17,6 @@ public class UserPasswordHistory extends BaseEntity {
     private long createdBy;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    private Account account;
 
 }

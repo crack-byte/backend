@@ -2,14 +2,12 @@ package com.tripshare.service;
 
 import com.tripshare.dto.PaginationDTO;
 import com.tripshare.dto.UserDTO;
-import com.tripshare.entity.User;
+import com.tripshare.entity.Account;
 import com.tripshare.enums.Cache;
 import com.tripshare.repository.UserRepository;
-import io.lettuce.core.api.sync.RedisServerCommands;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -54,8 +52,8 @@ public class UserService {
      * @return
      */
     public UserDTO createUser(UserDTO userDTO) {
-        User user = new User(userDTO);
-        return new UserDTO(userRepository.save(user));
+        Account account = new Account(userDTO);
+        return new UserDTO(userRepository.save(account));
     }
 
     /**
@@ -64,22 +62,22 @@ public class UserService {
      * @return
      */
     public PaginationDTO<UserDTO> findAll(int limit, int page) {
-        Page<User> usersPage = userRepository.findAll(Pageable.ofSize(limit).withPage(page));
+        Page<Account> usersPage = userRepository.findAll(Pageable.ofSize(limit).withPage(page));
         return new PaginationDTO<>(usersPage.stream().map(UserDTO::new).collect(Collectors.toList()), page + 1, usersPage.getTotalElements(), usersPage.getTotalPages());
     }
 
-    public User findByUsername(String username) {
+    public Account findByUsername(String username) {
         if (hasKey(username)) {
-            return (User) get(username);
+            return (Account) get(username);
         } else {
-            User user = userRepository.findByUsername(username)
+            Account account = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-            putIfAbsent(username, user);
-            return user;
+            putIfAbsent(username, account);
+            return account;
         }
     }
 
-    public List<User> findAllById(List<Long> ids) {
+    public List<Account> findAllById(List<Long> ids) {
         return userRepository.findAllById(ids);
     }
 }

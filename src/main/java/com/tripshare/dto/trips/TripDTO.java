@@ -19,7 +19,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 public class TripDTO implements Serializable {
 
     private static final long serialVersionUID = -2401823545005085832L;
-
+    private long id;
     private String name;
     private String uuid;
     private String description;
@@ -32,6 +32,7 @@ public class TripDTO implements Serializable {
 
     public TripDTO(Trip trip) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        this.id = trip.getId();
         this.name = trip.getName();
         this.uuid = trip.getUuid();
         this.description = trip.getDescription();

@@ -5,20 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@Entity(name = "users")
-public class User extends BaseEntity {
+@Entity
+@Table(name = "accounts")
+public class Account extends BaseEntity {
 
     private static final long serialVersionUID = -9141886501561769867L;
     @Column(unique = true)
@@ -46,12 +41,12 @@ public class User extends BaseEntity {
     private List<Role> roles;
 
 
-    public User() {
+    public Account() {
         this.active = true;
         this.roles = new ArrayList<>(0);
     }
 
-    public User(UserDTO dto) {
+    public Account(UserDTO dto) {
         this();
         this.username = dto.getUsername();
         this.encryptedPassword = dto.getPassword();
