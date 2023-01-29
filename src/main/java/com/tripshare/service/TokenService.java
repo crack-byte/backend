@@ -1,9 +1,8 @@
 package com.tripshare.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tripshare.entity.CustomUserDetails;
 import com.tripshare.entity.User;
+import com.tripshare.util.Util;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class TokenService {
 
-    public static final ObjectMapper MAPPER = new ObjectMapper().registerModule(new JavaTimeModule());
     private final ValueOperations<String, Object> valueOperations;
 
     public TokenService(RedisTemplate<String, Object> redisTemplate) {
@@ -30,7 +28,7 @@ public class TokenService {
         if (fromValue == null) {
             return null;
         }
-        return new CustomUserDetails(MAPPER.convertValue(fromValue, User.class));
+        return new CustomUserDetails(Util.MAPPER.convertValue(fromValue, User.class));
     }
 
 }

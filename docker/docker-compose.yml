@@ -12,10 +12,10 @@ services:
     networks:
       - mynetwork
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.8
     container_name: elasticsearch
     environment:
-      - node.name=elasticsearch
+      - discovery.type=single-node
     ulimits:
       memlock:
         soft: -1
@@ -24,6 +24,16 @@ services:
       - data:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
+    networks:
+      - mynetwork
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.8
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
     networks:
       - mynetwork
 #  zookeeper:

@@ -1,18 +1,29 @@
 package com.tripshare;
 
 import com.tripshare.entity.Role;
+import com.tripshare.entity.Trip;
 import com.tripshare.entity.User;
 import com.tripshare.entity.UserProfile;
+import com.tripshare.entity.elasticsearch.TripDocument;
 import com.tripshare.repository.RoleRepository;
+import com.tripshare.repository.TripRepository;
 import com.tripshare.repository.UserRepository;
+import com.tripshare.repository.elasticsearch.TripElasticRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.TimeZone;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -25,6 +36,8 @@ public class Bootstrap {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final TripElasticRepository tripElasticRepository;
+    private final TripRepository tripRepository;
     /**
      *
      */
@@ -80,6 +93,8 @@ public class Bootstrap {
             user.setEncryptedPassword(passwordEncoder.encode("1234"));
             userRepository.save(user);
         }
+        long count = tripElasticRepository.count();
+        List<Trip> all = tripRepository.findAll();
     }
 
 }
