@@ -5,16 +5,10 @@ import com.tripshare.util.converters.LocalDateTimeConverter;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,13 +29,13 @@ public class Trip extends BaseEntity {
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime endDate;
     @ManyToMany(
-        fetch = FetchType.LAZY,
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE}
+            fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE}
     )
     @JoinTable(
-        name = "trip_participants",
-        joinColumns = {@JoinColumn(name = "trip_id")},
-        inverseJoinColumns = {@JoinColumn(name = "user_id")}
+            name = "trip_participants",
+            joinColumns = {@JoinColumn(name = "trip_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private List<Account> participants;
 
@@ -49,8 +43,16 @@ public class Trip extends BaseEntity {
     @JoinColumn(name = "organizer_id")
     private Account organizer;
 
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL
+    )
+    private List<Expense> expenses;
+
     public Trip() {
         this.uuid = UUID.randomUUID().toString();
+        this.participants = new ArrayList<>();
+        this.expenses = new ArrayList<>();
     }
 
     public Trip(TripRequestDTO tripRequest) {

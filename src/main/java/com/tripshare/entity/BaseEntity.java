@@ -20,6 +20,7 @@ import java.time.ZoneId;
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
+    private static final long serialVersionUID = 7101986745327514555L;
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;

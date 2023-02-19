@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,17 +19,20 @@ public class Expense extends BaseEntity {
 
     private static final long serialVersionUID = -5701334493780053404L;
 
-    private BigDecimal amount;
+    private double amount;
     private LocalDateTime billDate;
     private String description;
     private String billType;
     @Convert(converter = ListConverter.class)
     private List<String> tags;
-    @ManyToOne
+    @ManyToOne(
+            fetch = FetchType.LAZY
+    )
     private Account createdBy;
 
     public Expense() {
-        this.amount = BigDecimal.ZERO;
+        this.amount = 0.0;
+        this.billDate = LocalDateTime.now();
     }
 
 }

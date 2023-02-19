@@ -5,6 +5,7 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -71,5 +72,14 @@ public class SecurityConfig {
                             .type(SecurityScheme.Type.HTTP)
                             .scheme("bearer").bearerFormat("JWT"))
                 );
+    }
+    @Bean
+    public FilterRegistrationBean<RequestLoggingFilter> loggingFilter() {
+        FilterRegistrationBean<RequestLoggingFilter> registrationBean = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new RequestLoggingFilter());
+        registrationBean.addUrlPatterns("/*");
+
+        return registrationBean;
     }
 }

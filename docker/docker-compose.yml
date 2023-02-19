@@ -3,14 +3,17 @@ version: '3.7'
 services:
   db:
     image: postgres
-    restart: always
+    restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_PASSWORD: tripshare
       POSTGRES_USER: tripshare
+      POSTGRES_DB: tripshare
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - mynetwork
   redis:
     image: redis:latest
     container_name: tripshare-redis
@@ -44,6 +47,17 @@ services:
       - ELASTICSEARCH_URL=http://elasticsearch:9200
     depends_on:
       - elasticsearch
+    networks:
+      - mynetwork
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.17.8
+    container_name: logstash
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    environment:
+      - XPACK_MONITORING_ENABLED=false
+    ports:
+      - "5000:5000"
     networks:
       - mynetwork
 #  zookeeper:
