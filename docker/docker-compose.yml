@@ -58,6 +58,8 @@ services:
       - XPACK_MONITORING_ENABLED=false
     ports:
       - "5000:5000"
+    depends_on:
+      - elasticsearch
     networks:
       - mynetwork
 #  zookeeper:

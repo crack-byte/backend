@@ -21,9 +21,6 @@ import java.time.ZoneId;
 public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 7101986745327514555L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
 
     private boolean deleted;
 

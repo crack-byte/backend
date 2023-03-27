@@ -16,6 +16,19 @@ import java.util.List;
 public class Account extends BaseEntity {
 
     private static final long serialVersionUID = -9141886501561769867L;
+    @Id
+    @TableGenerator
+            (
+                    name = "accounts_gen",
+                    table = "accounts_id",
+                    pkColumnName = "seq_name",
+                    valueColumnName = "seq_number",
+                    pkColumnValue = "accounts",
+                    initialValue = 1000,
+                    allocationSize = 1
+            )
+    @GeneratedValue(strategy = GenerationType.TABLE,generator = "accounts_gen")
+    private long id;
     @Column(unique = true)
     private String username;
     @Column(unique = true)

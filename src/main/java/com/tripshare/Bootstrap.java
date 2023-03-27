@@ -4,6 +4,7 @@ import com.tripshare.entity.Role;
 import com.tripshare.entity.Trip;
 import com.tripshare.entity.Account;
 import com.tripshare.entity.UserProfile;
+import com.tripshare.entity.elasticsearch.TripDocument;
 import com.tripshare.repository.RoleRepository;
 import com.tripshare.repository.TripRepository;
 import com.tripshare.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -86,8 +88,7 @@ public class Bootstrap {
             account.setEncryptedPassword(passwordEncoder.encode("1234"));
             userRepository.save(account);
         }
-        long count = tripElasticRepository.count();
-        List<Trip> all = tripRepository.findAll();
+        tripElasticRepository.deleteAll();
     }
 
 }

@@ -15,10 +15,23 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Table(name = "trip")
 public class Trip extends BaseEntity {
 
     private static final long serialVersionUID = -2401823545005085832L;
-
+    @Id
+    @TableGenerator
+            (
+                    name = "trip_gen",
+                    table = "trip_id",
+                    pkColumnName = "seq_name",
+                    valueColumnName = "seq_number",
+                    pkColumnValue = "trip",
+                    initialValue = 1000,
+                    allocationSize = 1
+            )
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "trip_gen")
+    private long id;
     private String name;
     private String uuid;
     private String description;
