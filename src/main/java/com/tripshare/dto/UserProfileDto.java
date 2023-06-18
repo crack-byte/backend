@@ -1,19 +1,29 @@
 package com.tripshare.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tripshare.entity.UserProfile;
-import com.tripshare.enums.GenderEnum;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.NoArgsConstructor;
 
 /**
  * A DTO for the {@link UserProfile} entity
  */
 @Data
-public class UserProfileDto implements Serializable {
-    private final long id;
-    private final String firstName;
-    private final String lastName;
-    private final String profileImageUrl;
-    private final GenderEnum gender;
+@NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserProfileDto {
+
+    private long id;
+    private String firstName;
+    private String lastName;
+    private String profileImageUrl;
+    private String gender;
+
+    public UserProfileDto(UserProfile userProfile) {
+        this.id = userProfile.getId();
+        this.firstName = userProfile.getFirstName();
+        this.lastName = userProfile.getLastName();
+        this.profileImageUrl = userProfile.getProfileImageUrl();
+    }
+
 }

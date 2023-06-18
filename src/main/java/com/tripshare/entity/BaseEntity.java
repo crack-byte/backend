@@ -20,21 +20,19 @@ import java.time.ZoneId;
 @MappedSuperclass
 public class BaseEntity implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long id;
+    private static final long serialVersionUID = 7101986745327514555L;
 
-	private boolean deleted;
+    private boolean deleted;
 
-	@Convert(converter = LocalDateTimeConverter.class)
-	private LocalDateTime createdDate;
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime createdDate;
 
-	@Convert(converter = LocalDateTimeConverter.class)
-	private LocalDateTime lastUpdatedDate;
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime lastUpdatedDate;
 
-	@PrePersist
-	void prePersist() {
-		this.createdDate = Instant.now().atZone(ZoneId.systemDefault()).toLocalDateTime();
-	}
+    @PrePersist
+    void prePersist() {
+        this.createdDate = Instant.now().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
 
 }

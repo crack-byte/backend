@@ -1,17 +1,16 @@
 package com.tripshare.dto;
 
-import com.tripshare.entity.Permission;
 import lombok.Data;
 
-import java.io.Serializable;
-
 /**
- * A DTO for the {@link Permission} entity
+ * A DTO for the {@link com.tripshare.entity.Role} entity
  */
 @Data
-public class PermissionDto implements Serializable {
+public class RoleDto {
+
     private final long id;
     private final String name;
     private final String description;
     private final int order;
+
 }

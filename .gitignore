@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/application-local.yml
+/docker/data/
+/.jpb/
+/logs/
