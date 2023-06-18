@@ -1,5 +1,6 @@
 package com.tripshare.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.tripshare.entity.UserProfile;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserProfileDto {
 
     private long id;

@@ -26,6 +26,8 @@ public class TripDTO implements Serializable {
     private String category;
     private String startDate;
     private String endDate;
+    private String actualStartDate;
+    private String actualEndDate;
     private UserDTO organizer;
     private String status;
     private List<UserDTO> participants;
@@ -39,6 +41,12 @@ public class TripDTO implements Serializable {
         this.category = trip.getCategory();
         this.startDate = formatter.format(trip.getStartDate());
         this.endDate = formatter.format(trip.getEndDate());
+        if (trip.getActualStartDate() != null) {
+            this.actualStartDate = formatter.format(trip.getActualStartDate());
+        }
+        if (trip.getActualEndDate() != null) {
+            this.actualEndDate = formatter.format(trip.getActualEndDate());
+        }
         this.organizer = new UserDTO(trip.getOrganizer());
         this.status = trip.getStatus();
         this.participants = trip.getParticipants().stream().map(UserDTO::new).collect(Collectors.toList());

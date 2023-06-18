@@ -41,6 +41,10 @@ public class Trip extends BaseEntity {
     private LocalDateTime startDate;
     @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime endDate;
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime actualStartDate;
+    @Convert(converter = LocalDateTimeConverter.class)
+    private LocalDateTime actualEndDate;
     @ManyToMany(
             fetch = FetchType.LAZY,
             cascade = {CascadeType.PERSIST, CascadeType.MERGE}

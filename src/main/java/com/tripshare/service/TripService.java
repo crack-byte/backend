@@ -3,8 +3,8 @@ package com.tripshare.service;
 import com.tripshare.dto.PaginationDTO;
 import com.tripshare.dto.trips.TripDTO;
 import com.tripshare.dto.trips.TripRequestDTO;
-import com.tripshare.entity.Trip;
 import com.tripshare.entity.Account;
+import com.tripshare.entity.Trip;
 import com.tripshare.repository.TripRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -17,8 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -38,6 +40,18 @@ public class TripService {
         tripRepository.save(trip);
     }
 
+    public void startOrStopTrip(long tripId, String status) {
+        tripRepository.findById(tripId).ifPresent(trip -> {
+            if (status.equalsIgnoreCase("start")) {
+                trip.setStatus(status);
+                trip.setActualStartDate(LocalDateTime.now());
+            } else if (trip.getActualStartDate() != null && status.equalsIgnoreCase("end")) {
+                trip.setStatus(status);
+                trip.setActualEndDate(LocalDateTime.now());
+            }
+            tripRepository.save(trip);
+        });
+    }
 
     public PaginationDTO<TripDTO> getTrips(long userId) {
         log.info("Getting trips for user: {}", userId);
@@ -49,6 +63,15 @@ public class TripService {
         paginationDTO.setTotal(tripPage.getTotalElements());
         paginationDTO.setTotalPages(tripPage.getTotalPages());
         return paginationDTO;
+    }
+
+    public TripDTO getTrip(long tripId) {
+        PageRequest pageRequest = PageRequest.of(0, 100, Sort.by("id").descending());
+        Trip tripPage = tripRepository.findById(tripId).orElse(null);
+        if(tripPage!=null){
+            return new TripDTO(tripPage);
+        }
+        return null;
     }
 
     private Specification<Trip> filterTripsSpecification(long userId) {

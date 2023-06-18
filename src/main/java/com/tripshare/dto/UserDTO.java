@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
